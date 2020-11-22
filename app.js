@@ -96,7 +96,7 @@ app.post('/addemp', requiresAuth(), function(req,res){
 
 
 //Update
-app.post('/modifyemp', function(req,res){
+app.post('/modifyemp', requiresAuth(), function(req,res){
   db.serialize(()=>{
     db.run('UPDATE emp SET name = ? WHERE id = ?', [req.body.empname,req.body.empid], function(err){
       if(err){
@@ -111,7 +111,7 @@ app.post('/modifyemp', function(req,res){
 
 
 // View
-app.post('/viewemp', function(req,res){
+app.post('/viewemp', requiresAuth(), function(req,res){
   db.serialize(()=>{
     db.each('SELECT id ID, name NAME FROM emp WHERE id =?', [req.body.empid], function(err,row){     //db.each() is only one which is funtioning while reading data from the DB
       if(err){
@@ -126,7 +126,7 @@ app.post('/viewemp', function(req,res){
 
 
 // Delete
-app.post('/delemp', function(req,res){
+app.post('/delemp', requiresAuth(), function(req,res){
   db.serialize(()=>{
     db.run('DELETE FROM emp WHERE id = ?', req.body.empid, function(err) {
       if (err) {
